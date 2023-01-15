@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="two.js"></script>
+    <style>
+        #target {
+            width: 100%;
+            height: 100vh;
+        }
+    </style>
+    <title>Document</title>
+</head>
+
+<body style="background-color: rgb(53, 53, 53);">
+    <div id="target">
+
+    </div>
+    <script>
+        let params = {
+            'fullscreen': true,
+            'fitted': true,
+            'type': Two.Types.canvas,
+        }
+        let elem = document.querySelector("#target");
+        let two = new Two(params).appendTo(elem);
+        let drops = two.makeGroup();
+        let impact = two.makeGroup();
+
+
+        two.bind('update', update);
+        two.update();
+        two.play();
+
+        function update() {
+            for (let i = 0; i < 1; i++) {
+                let x = randInt(10, two.width + (two.width / 10));
+                let y = randInt(-30, 0);
+                let l = randInt(2, 4)
+                let line = two.makeLine(x + l, y, x, 10);
+                line.stroke = "#888";
+                drops.add(line);
+            }
+            drops.children.forEach(d => {
+                let x = randInt(-3, 4);
+                let y = randInt(15, 25);
+                d.position.x -= 2;
+                d.position.y += y;
+                if (d.position.y > two.height) {
+                    let imp = two.makeCircle(d.right.x, two.height, 2);
+                    impact.add(imp);
+                    imp.fill = 'transparent';
+                    imp.stroke = "gray";
+                    drops.remove(d);
+                    two.remove(d);
+                }
+            });
+            impact.children.forEach((imp)=>{
+                imp.scale += 0.05;
+                imp.opacity -= 0.04;
+                imp.linewidth +=0.05;
+                if(imp.opacity <= 0){
+                    impact.remove(imp);
+                    two.remove(imp);
+                }
+            })
+        }
+        function randInt(min, max) {
+            return Math.floor(Math.random() * (max - min)) + (min);
+        }
+    </script>
+</body>
+
+</html>

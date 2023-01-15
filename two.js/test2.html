@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="two.js"></script>
+    <style>
+        .circle{
+            text-shadow: 5px 10px red;
+        }
+    </style>
+    <title>Document</title>
+</head>
+
+<body style="background-color: rgb(18, 18, 18);">
+    <img style="position: fixed;top:35%;left:45%; width: 200px; z-index: 69;" src="logo.svg">
+    <script>
+        let two = new Two({
+            'fullscreen': true,
+        }).appendTo(document.body);
+
+        let circles = two.makeGroup();
+
+
+        for (let i = 0; i < 100; i++) {
+            let x = randInt(0, two.width);
+            let y = randInt(0, two.height);
+            let r = randFloat(1, 3.5);
+            let circle = two.makeCircle(x, y, r);
+            circle.speed = circle.radius / 2;
+            circle.fill = "#bbb";
+            circle.linewidth = 100;
+            circle.stroke = "transparent";
+            circle.className = "circle";
+            circles.add(circle);
+            two.update()
+            circle._renderer.elem.addEventListener('mouseover', () => {
+                if (circles.children.filter((c) => c.hasHover).length <= 3) {
+                    circle.speed *= 10;
+                    circle.radius *= 1.5;
+                    circle.fill = "red";
+                    circle.hasHover = true;
+                }
+            })
+        }
+
+        two.renderer.domElement.addEventListener('click', (e)=>{
+            let x = e.clientX;
+            let y = e.clientY;
+            let r = randFloat(1, 3.5);
+            let blackHole = two.makeCircle(x, y, r);
+            blackHole.speed = blackHole.radius / 2;
+            blackHole.fill = "red";
+            blackHole.isManual = true;
+            blackHole.linewidth = 100;
+            blackHole.stroke = "transparent";
+            // blackHoles.add(blackHole);
+            two.update();
+        })
+
+        two.bind('update', update);
+        two.play();
+
+        function update() {
+            circles.children.forEach(c => {
+                c.position.x -= c.speed;
+                if (c.position.x <= 0) {
+                    if(c.isManual){
+                        circles.remove(c);
+                        two.remove(c);
+                    }
+                    c.position.x = two.width;
+                    c.position.y = randInt(0, two.height);
+                    c.radius = randFloat(1, 3.5);
+                    c.speed = c.radius / 2;
+                    c.fill = "#bbb";
+                    c.hasHover = false;
+                }
+            });
+        }
+
+        function randInt(min, max) {
+            return Math.floor(Math.random() * (max - min)) + (min);
+        }
+
+        function randFloat(min, max) {
+            return (Math.random() * (max - min)) + (min);
+        }
+
+    </script>
+</body>
+
+</html>

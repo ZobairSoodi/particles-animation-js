@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            background-color: rgb(55, 55, 55);
+            position: relative;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+
+<body onload="startGame()">
+    <script>
+        let stars = [];
+        stars_count = 50;
+        let colors = ["red", "orange", "yellow", "green", "blue", "indigo", "violet"];
+
+        function startGame() {
+            gameArea.start();
+            for (let i = 0; i < stars_count; i++) {
+                let cw = gameArea.canvas.width;
+                let ch = gameArea.canvas.height;
+                let x = Math.floor(Math.random() * cw);
+                let y = Math.floor(Math.random() * ch);
+                let color = colors[Math.floor(Math.random() * colors.length)];
+                let star = new component(x, y, 10, 10, color);
+                star.x2 = Math.floor(Math.random() * 3) + 1;
+                star.y2 = Math.floor(Math.random() * 3) + 1;
+                stars.push(star);
+            }
+            // player = new component(100, 100, 10, 10, "red");
+        }
+
+        let gameArea = {
+            canvas: document.createElement("canvas"),
+            start: function () {
+                this.canvas.width = 800;
+                this.canvas.height = 600;
+                this.canvas.style.backgroundColor = "#515151";
+                this.ctx = this.canvas.getContext("2d");
+                document.body.append(this.canvas);
+            }
+        }
+
+        function component(x, y, w, h, color) {
+            this.x = x;
+            this.y = y;
+            this.w = w;
+            this.h = h;
+            this.dx = 1;
+            this.dy = 1;
+            ctx = gameArea.ctx;
+            ctx.fillStyle = color;
+            ctx.fillRect(this.x, this.y, this.w, this.h);
+            this.move = function (moveX, moveY) {
+                if ((this.dx == 1 && this.x + this.w + moveX > gameArea.canvas.width) || (this.dx == -1 && this.x + (moveX) <= 0)) {
+                    this.dx *= -1;
+                }
+                if ((this.dy == 1 && this.y + this.h + moveY > gameArea.canvas.height) || (this.dy == -1 && this.y + (moveY) <= 0)) {
+                    this.dy *= -1;
+                }
+                ctx.clearRect(this.x, this.y, this.w, this.h);
+                ctx.fillStyle = color;
+                this.x += this.dx * moveX;
+                this.y += this.dy * moveY;
+                ctx.fillRect(this.x, this.y, this.w, this.h);
+            }
+        }
+
+        setInterval(() => {
+            stars.forEach((star)=>{
+                star.move(star.x2, star.y2)
+            })
+        }, 20);
+
+        // document.onmousemove = function(e){
+        //     player.move(e.clientX - (player.w / 2), e.clientY - (player.h / 2));
+        // }
+    </script>
+</body>
+
+</html>

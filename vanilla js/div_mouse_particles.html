@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            background-color: rgb(55, 55, 55);
+            position: relative;
+            margin: 0;
+            padding: 0;
+        }
+
+        .sparkle {
+            width: 10px;
+            height: 10px;
+            /* background-color: blueviolet; */
+            border-width: 2px;
+            border-style: solid;
+            border-color: black;
+            /* border-image: linear-gradient(to bottom right, #b827fc 0%, #2c90fc 25%, #b8fd33 50%, #fec837 75%, #fd1892 100%); */
+            /* border-image-slice: 1; */
+            position: absolute;
+            transition: all 0.5s;
+            border-radius: 50%;
+            opacity: 0;
+            animation: grow 0.5s cubic-bezier(0.02, 1.02, 0.98, 1);
+        }
+
+        @keyframes grow {
+            0% {
+                width: 10px;
+                height: 10px;
+                border-width: 2px;
+                opacity: 1;
+            }
+
+            /* 50%{
+                width: 35px;
+                height: 35px;
+                opacity: 0;
+            } */
+            100% {
+                width: 50px;
+                height: 50px;
+                border-width: 50px;
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <script>
+        document.onmousemove = (e) => {
+            let div = document.createElement("div");
+            div.classList.add("sparkle");
+            div.style.top = e.clientY + "px";
+            div.style.left = e.clientX + "px";
+            div.style.transform = "translate(-50%,-50%)";
+            document.body.append(div);
+
+            setTimeout(() => {
+                div.remove();
+            }, 1000);
+        }
+    </script>
+</body>
+
+</html>

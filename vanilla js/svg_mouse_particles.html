@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            background-color: rgb(55, 55, 55);
+            position: relative;
+            margin: 0;
+            padding: 0;
+        }
+
+        .sparkle {
+
+            opacity: 0;
+            animation: grow 2s;
+        }
+
+        @keyframes grow {
+            0% {
+                stroke-width: 2px;
+                r:2;
+                opacity: 0.5;
+            }
+
+            40%{
+                opacity: 0.1;
+                stroke-width: 30px;
+                r:30;
+            }
+            100% {
+                stroke-width: 50px;
+                r:50;
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <svg width="1000" height="1000">
+        <!-- <circle stroke-width="2" stroke="black" cy="25" cx="25" r="25"></circle> -->
+    </svg>
+    <script>
+        let svg = document.getElementsByTagName("svg")[0];
+        let colors = ["red", "orange", "yellow", "green", "blue", "indigo", "violet"];
+        document.onmousemove = (e) => {
+            let rand = Math.floor(Math.random() * colors.length);
+            console.log(e.clientX, e.clientY);
+            let cr = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+            cr.setAttributeNS(null, "stroke-width", "2");
+            cr.setAttributeNS(null, "stroke", "white");
+            cr.setAttributeNS(null, "fill", "transparent");
+            cr.setAttributeNS(null, "cy", e.clientY);
+            cr.setAttributeNS(null, "cx", e.clientX);
+            cr.setAttributeNS(null, "r", "2");
+            cr.classList.add("sparkle");
+            // cr.style.top = e.clientY + "px";
+            // cr.style.left = e.clientX + "px";
+            // cr.style.transform = "translate(-50%,-50%)";
+            svg.append(cr);
+
+            setTimeout(() => {
+                cr.remove();
+            }, 3000);
+        }
+    </script>
+</body>
+
+</html>

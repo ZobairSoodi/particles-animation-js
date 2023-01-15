@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            background-color: rgb(55, 55, 55);
+            position: relative;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+
+<body onload="startGame()">
+    <div style="display: none;">
+        <img id="star" src="Layer 1.png">
+    </div>
+    <script>
+        let stars = [];
+        stars_count = 50;
+        let pointerX = 0;
+        let pointerY = 0;
+
+        function startGame() {
+            gameArea.start();
+            for (let i = 0; i < stars_count; i++) {
+                let cw = gameArea.canvas.width;
+                let ch = gameArea.canvas.height;
+                let x = Math.floor(Math.random() * cw);
+                let y = Math.floor(Math.random() * ch);
+                let star = new component(document.getElementById("star"), x, y);
+                star.x2 = Math.floor(Math.random() * 5) + 1;
+                star.y2 = Math.floor(Math.random() * 5) + 1;
+                stars.push(star);
+            }
+            // player = new component(100, 100, 10, 10, "red");
+        }
+
+        let gameArea = {
+            canvas: document.createElement("canvas"),
+            start: function () {
+                this.canvas.width = 800;
+                this.canvas.height = 600;
+                this.canvas.style.backgroundColor = "#515151";
+                this.ctx = this.canvas.getContext("2d");
+                document.body.append(this.canvas);
+            },
+            clear: function(){
+                this.ctx.clearRect(0,0,gameArea.canvas.width,gameArea.canvas.height);
+            }
+        }
+
+        function component(img, x, y) {
+            this.x = x;
+            this.y = y;
+            this.w = img.clientWidth;
+            this.h = img.clientHeight;
+            this.dx = 1;
+            this.dy = 1;
+            ctx = gameArea.ctx;
+            ctx.drawImage(img, x, y);
+            this.move = function (moveX, moveY) {
+                if ((this.dx == 1 && this.x + this.w + moveX > gameArea.canvas.width) || (this.dx == -1 && this.x + (moveX) <= 0)) {
+                    this.dx *= -1;
+                }
+                if ((this.dy == 1 && this.y + this.h + moveY > gameArea.canvas.height) || (this.dy == -1 && this.y + (moveY) <= 0)) {
+                    this.dy *= -1;
+                }
+                // ctx.clearRect(this.x, this.y, this.w, this.h);
+                this.x += this.dx * moveX;
+                this.y += this.dy * moveY;
+                ctx.drawImage(img, this.x, this.y);
+            }
+        }
+
+        setInterval(() => {
+            gameArea.clear();
+            stars.forEach((star)=>{
+                // if(pointerX > star.x && pointerX < star.x + star.w && pointerY > star.y && pointerY < star.y + star.h ){
+                //     alert("lost");
+                // }
+                star.move(star.x2, star.y2);
+            });
+            // console.log(pointerX, pointerY);
+        }, 20);
+
+        // document.onmousemove = (e)=>{
+        //     pointerX = e.clientX;
+        //     pointerY = e.clientY;
+        // }
+    </script>
+</body>
+
+</html>

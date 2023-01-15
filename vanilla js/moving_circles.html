@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            background-color: rgb(55, 55, 55);
+            position: relative;
+            margin: 0;
+            padding: 0;
+        }
+
+        .sparkle {
+
+            opacity: 0;
+            animation: grow 2s;
+        }
+
+        @keyframes grow {
+            0% {
+                stroke-width: 2px;
+                r: 2;
+                opacity: 0.2;
+            }
+
+            /* 30% {
+                opacity: 0.05;
+                stroke-width: 35px;
+                r: 60;
+            } */
+
+            100% {
+                stroke-width: 20px;
+                r: 20;
+                opacity: 0;
+                cx: -20;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <svg width="800" height="600">
+        <!-- <circle stroke-width="2" stroke="black" cy="25" cx="25" r="25"></circle> -->
+    </svg>
+    <script>
+        let svg = document.getElementsByTagName("svg")[0];
+        let colors = ["red", "orange", "yellow", "green", "blue", "indigo", "violet"];
+        setInterval((e) => {
+            // for (let i = 0; i < 4; i++) {
+
+                let cx = Math.floor(Math.random() * 800) + 1;
+                // let cy = Math.floor(Math.random() * 600) + 300;
+                let cy = 600;
+                let maxDelay = 5;
+                let delay = Math.floor(Math.random() * maxDelay) + 3;
+                // console.log(e.clientX, e.clientY);
+                let cr = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                cr.setAttributeNS(null, "stroke-width", "2");
+                cr.setAttributeNS(null, "stroke", "white");
+                cr.setAttributeNS(null, "fill", "transparent");
+                cr.setAttributeNS(null, "cy", cx);
+                cr.setAttributeNS(null, "cx", cy);
+                cr.setAttributeNS(null, "r", "2");
+                cr.classList.add("sparkle");
+                cr.style.animationDuration = delay + "s";
+                // cr.style.top = e.clientY + "px";
+                // cr.style.left = e.clientX + "px";
+                // cr.style.transform = "translate(-50%,-50%)";
+                svg.append(cr);
+
+                setTimeout(() => {
+                    cr.remove();
+                }, maxDelay * 1000);
+            // }
+        }, 1000)
+    </script>
+</body>
+
+</html>
