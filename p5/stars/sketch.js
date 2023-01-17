@@ -3,7 +3,8 @@ let logo;
 let timer = 1000;
 
 function setup() {
-  createCanvas(windowWidth, windowHeight);
+  let myCanvas = createCanvas(windowWidth, windowHeight);
+  myCanvas.parent("canvas-parent");
   for (let i = 0; i < 50; i++) {
     circles.push(new Circle());
   }
@@ -33,8 +34,8 @@ function draw() {
     }
   }
 
-  let imgWidth = 300;
-  let imgHeight = 300;
+  let imgWidth = 200;
+  let imgHeight = 200;
   image(logo, width / 2 - imgWidth / 2, height / 2 - imgHeight / 2, imgWidth, imgHeight);
 }
 
@@ -42,8 +43,8 @@ class Circle {
   constructor() {
     this.x = random(width);
     this.y = random(height);
-    this.r = random(3, 6);
-    this.speed = this.r / 5;
+    this.r = random(2, 5);
+    this.speed = (this.r / 8) * random(0.8, 1.2);
     this.opacity = 70;
     this.isGlowing = false;
     this.isFading = false;
@@ -83,9 +84,9 @@ class Circle {
   }
 
   move() {
-    this.x += this.speed;
-    if (this.x > width) {
-      this.x = 0;
+    this.x -= this.speed;
+    if (this.x < 0) {
+      this.x = width;
       this.y = random(height);
     }
   }
