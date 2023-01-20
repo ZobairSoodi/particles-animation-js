@@ -1,18 +1,39 @@
 let circles = [];
 let logo;
 let timer = 1000;
+let sliderSpeed;
+let selectNumber;
+
+function restart(){
+  background('#222629');
+  circles = [];
+  for (let i = 0; i < selectNumber.value(); i++) {
+    circles.push(new Circle());
+  }
+  logo = loadImage('logo-dark.svg');
+  selectNumber.changed(()=>{
+    restart();
+  })
+}
 
 function setup() {
   let myCanvas = createCanvas(windowWidth, windowHeight);
   myCanvas.parent("canvas-parent");
-  for (let i = 0; i < 50; i++) {
-    circles.push(new Circle());
-  }
-  logo = loadImage('logo-dark.svg');
+  sliderSpeed = createSlider(1, 10, 0.01);
+  sliderSpeed.position(20, 5);
+  selectNumber = createSelect("dsd");
+  selectNumber.position(sliderSpeed.x + sliderSpeed.width + 20, 5)
+  selectNumber.option(30);
+  selectNumber.option(40);
+  selectNumber.option(50);
+  selectNumber.option(60);
+  selectNumber.option(70);
+  selectNumber.selected(50);
+  restart();
 }
 
 function draw() {
-  background('#111');
+  background('#222629');
   fill('white');
   circles.forEach((c) => {
     c.display();
@@ -34,9 +55,9 @@ function draw() {
     }
   }
 
-  let imgWidth = 200;
-  let imgHeight = 200;
-  image(logo, width / 2 - imgWidth / 2, height / 2 - imgHeight / 2, imgWidth, imgHeight);
+  // let imgWidth = 200;
+  // let imgHeight = 200;
+  // image(logo, width / 2 - imgWidth / 2, height / 2 - imgHeight / 2, imgWidth, imgHeight);
 }
 
 class Circle {
@@ -84,7 +105,7 @@ class Circle {
   }
 
   move() {
-    this.x -= this.speed;
+    this.x -= this.speed * sliderSpeed.value();
     if (this.x < 0) {
       this.x = width;
       this.y = random(height);
@@ -97,16 +118,15 @@ function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
 }
 
-function star(x, y, radius1, radius2, npoints) {
-  let angle = TWO_PI / npoints;
-  let halfAngle = angle / 2.0;
+function star(x, y, r1, r2, numPoints) {
+  let angle = TWO_PI / numPoints;
   beginShape();
   for (let a = 0; a < TWO_PI; a += angle) {
-    let sx = x + cos(a) * radius2;
-    let sy = y + sin(a) * radius2;
+    let sx = x + cos(a) * r2;
+    let sy = y + sin(a) * r2;
     vertex(sx, sy);
-    sx = x + cos(a + halfAngle) * radius1;
-    sy = y + sin(a + halfAngle) * radius1;
+    sx = x + cos(a + angle / 2) * r1;
+    sy = y + sin(a + angle / 2) * r1;
     vertex(sx, sy);
   }
   endShape(CLOSE);

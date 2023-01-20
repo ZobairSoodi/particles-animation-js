@@ -4,7 +4,7 @@ let master;
 function setup() {
   createCanvas(windowWidth, windowHeight);
   for (let i = 0; i < 200; i++) {
-    circles.push(new Circle(100, 100, random(50, 100)));
+    circles.push(new Circle(100, 100, random(10, 5)));
   }
 }
 
@@ -17,7 +17,7 @@ function draw() {
     c.move();
   });
   fill(255);
-  master = circle(mouseX, mouseY, 50);
+  master = circle(mouseX, mouseY, 20);
 }
 
 class Circle {
@@ -37,7 +37,7 @@ class Circle {
     this.acc = p5.Vector.sub(mouse, this.pos);
     this.acc.setMag(0.1);
     this.vel.add(this.acc);
-    this.vel.limit(5);
+    this.vel.limit(random([5, 10, 15]));
     this.pos.add(this.vel);
   }
 }

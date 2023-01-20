@@ -12,6 +12,7 @@
             position: relative;
             margin: 0;
             padding: 0;
+            height: 100vh;
         }
     </style>
 </head>
@@ -21,12 +22,12 @@
         let stars = [];
         stars_count = 50;
         let colors = ["red", "orange", "yellow", "green", "blue", "indigo", "violet"];
-
+        let directions = [-1, 1];
         function startGame() {
             gameArea.start();
             for (let i = 0; i < stars_count; i++) {
-                let cw = gameArea.canvas.width;
-                let ch = gameArea.canvas.height;
+                let cw = document.body.clientWidth;
+                let ch = document.body.clientHeight;
                 let x = Math.floor(Math.random() * cw);
                 let y = Math.floor(Math.random() * ch);
                 let color = colors[Math.floor(Math.random() * colors.length)];
@@ -41,8 +42,8 @@
         let gameArea = {
             canvas: document.createElement("canvas"),
             start: function () {
-                this.canvas.width = 800;
-                this.canvas.height = 600;
+                this.canvas.width = document.body.clientWidth;
+                this.canvas.height = document.body.clientHeight;
                 this.canvas.style.backgroundColor = "#515151";
                 this.ctx = this.canvas.getContext("2d");
                 document.body.append(this.canvas);
@@ -54,8 +55,9 @@
             this.y = y;
             this.w = w;
             this.h = h;
-            this.dx = 1;
-            this.dy = 1;
+            
+            this.dx = directions[Math.floor(Math.random() * 2)];
+            this.dy = directions[Math.floor(Math.random() * 2)];
             ctx = gameArea.ctx;
             ctx.fillStyle = color;
             ctx.fillRect(this.x, this.y, this.w, this.h);

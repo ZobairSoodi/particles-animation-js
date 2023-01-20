@@ -13,7 +13,10 @@
             margin: 0;
             padding: 0;
         }
-
+        svg{
+            width: 100%;
+            height: 100vh;
+        }
         .sparkle {
 
             opacity: 0;
@@ -43,17 +46,14 @@
 </head>
 
 <body>
-    <svg width="800" height="600">
-        <!-- <circle stroke-width="2" stroke="black" cy="25" cx="25" r="25"></circle> -->
-    </svg>
+    <svg width="100%" height="100%"></svg>
     <script>
         let svg = document.getElementsByTagName("svg")[0];
-        let colors = ["red", "orange", "yellow", "green", "blue", "indigo", "violet"];
         setInterval((e) => {
-            // for (let i = 0; i < 1; i++) {
+            for (let i = 0; i < 5; i++) {
 
-                let cx = Math.floor(Math.random() * 800) + 1;
-                let cy = Math.floor(Math.random() * 600) + 1;
+                let cx = Math.floor(Math.random() * svg.clientHeight) + 1;
+                let cy = Math.floor(Math.random() * svg.clientWidth) + 1;
                 let maxDelay = 5;
                 let delay = Math.floor(Math.random() * maxDelay) + 5;
                 // console.log(e.clientX, e.clientY);
@@ -74,7 +74,7 @@
                 setTimeout(() => {
                     cr.remove();
                 }, maxDelay * 1000);
-            // }
+            }
         }, 1000)
     </script>
 </body>

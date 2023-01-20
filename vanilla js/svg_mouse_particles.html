@@ -17,19 +17,19 @@
         .sparkle {
 
             opacity: 0;
-            animation: grow 2s;
+            animation: grow 0.5s;
         }
 
         @keyframes grow {
             0% {
-                stroke-width: 2px;
-                r:2;
+                stroke-width: 10px;
+                r:10;
                 opacity: 0.5;
             }
 
-            40%{
-                opacity: 0.1;
-                stroke-width: 30px;
+            10%{
+                opacity: 0.3;
+                stroke-width: 40px;
                 r:30;
             }
             100% {
@@ -47,17 +47,15 @@
     </svg>
     <script>
         let svg = document.getElementsByTagName("svg")[0];
-        let colors = ["red", "orange", "yellow", "green", "blue", "indigo", "violet"];
         document.onmousemove = (e) => {
-            let rand = Math.floor(Math.random() * colors.length);
             console.log(e.clientX, e.clientY);
             let cr = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-            cr.setAttributeNS(null, "stroke-width", "2");
-            cr.setAttributeNS(null, "stroke", "white");
+            cr.setAttributeNS(null, "stroke-width", "10");
+            cr.setAttributeNS(null, "stroke", "black");
             cr.setAttributeNS(null, "fill", "transparent");
             cr.setAttributeNS(null, "cy", e.clientY);
             cr.setAttributeNS(null, "cx", e.clientX);
-            cr.setAttributeNS(null, "r", "2");
+            cr.setAttributeNS(null, "r", "10");
             cr.classList.add("sparkle");
             // cr.style.top = e.clientY + "px";
             // cr.style.left = e.clientX + "px";

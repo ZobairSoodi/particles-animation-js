@@ -42,6 +42,7 @@
                 let l = randInt(2, 4)
                 let line = two.makeLine(x + l, y, x, 10);
                 line.stroke = "#888";
+                line.linewidth = 2;
                 drops.add(line);
             }
             drops.children.forEach(d => {
